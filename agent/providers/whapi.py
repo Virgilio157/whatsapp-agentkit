@@ -11,7 +11,6 @@ class ProveedorWhapi(ProveedorWhatsApp):
     """Proveedor de WhatsApp usando Whapi.cloud."""
 
     def __init__(self):
-        self.token = os.getenv("WHAPI_TOKEN")
         self.url_envio = "https://gate.whapi.cloud/messages/text"
 
     async def parsear_webhook(self, request: Request) -> list[MensajeEntrante]:
@@ -29,11 +28,12 @@ class ProveedorWhapi(ProveedorWhatsApp):
 
     async def enviar_mensaje(self, telefono: str, mensaje: str) -> bool:
         """Envía mensaje via Whapi.cloud."""
-        if not self.token:
+        token = os.getenv("WHAPI_TOKEN")
+        if not token:
             logger.warning("WHAPI_TOKEN no configurado — mensaje no enviado")
             return False
         headers = {
-            "Authorization": f"Bearer {self.token}",
+            "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
         }
         async with httpx.AsyncClient() as client:
