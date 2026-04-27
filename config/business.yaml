@@ -1,0 +1,52 @@
+# Configuración del negocio — Generado por AgentKit
+negocio:
+  nombre: "Dr. Virgilio Salgado Cirujano Plástico"
+  descripcion: >
+    Consultorio de Cirugía Plástica Estética a cargo del Dr. Virgilio Salgado.
+    Especializado en procedimientos faciales y corporales. Ofrece atención integral
+    al paciente desde la etapa previa hasta la evolución postoperatoria, con un
+    enfoque ético y en la relación médico-paciente cercana.
+  procedimientos_faciales:
+    - "Blefaroplastia"
+    - "Rinoplastia primaria y secundaria"
+    - "Lifting / Ritidoplastia"
+    - "Otoplastia"
+    - "Bichectomía"
+    - "Toxina Botulínica (Dysport y Botox)"
+  procedimientos_corporales:
+    - "Mamoplastia de aumento"
+    - "Mamoplastia de reducción"
+    - "Mastopexia (con o sin implantes)"
+    - "Cambio de implantes mamarios"
+    - "Explantación y reconstrucción inmediata"
+    - "Lipoescultura"
+    - "Abdominoplastia"
+  pacientes: "Principalmente mujeres entre 20 y 60 años, aunque también se atienden hombres."
+  enfoque: >
+    Medicina ética e integral. El Dr. Salgado acompaña a los pacientes en su preparación
+    previa a la cirugía, promoviendo mejores hábitos de vida, y les da seguimiento en
+    su evolución postoperatoria.
+  horario: "Lunes, Martes y Jueves de 3:00pm a 6:00pm | Miércoles y Sábados de 10:00am a 12:00m"
+  consultorio: "Centro Médico Vital, Carrera 51B #94-334, Consultorio 503, Barranquilla, Colombia"
+  clinica_cirugia: "Clínica Iberoamérica, Barranquilla, Colombia"
+  whatsapp: "+57 333 2229529"
+  instagram: "@doctorvirgiliosalgado"
+
+agente:
+  nombre: "Asistente Dr. Virgilio"
+  tono: "Empático y cálido"
+  casos_de_uso:
+    - "Agendar consultas de primera vez"
+    - "Agendar controles postoperatorios"
+    - "Responder preguntas generales sobre procedimientos"
+    - "Atención 24/7 con triaje de urgencia"
+  politica_precios: "No se comparten precios sin evaluación médica. Siempre dirigir a consulta."
+  niveles_prioridad:
+    normal: "Preguntas generales sobre procedimientos o información del consultorio"
+    prioritario: "Solicitudes de consulta de primera vez o control postoperatorio"
+    urgente: "Pacientes postoperados con síntomas de alarma o complicaciones"
+
+metadata:
+  creado: "2026-04-24"
+  version: "1.0"
+  proveedor_whatsapp: "whapi"
