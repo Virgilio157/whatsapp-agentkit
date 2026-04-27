@@ -27,6 +27,14 @@ async def lifespan(app: FastAPI):
     logger.info("Base de datos inicializada")
     logger.info(f"Servidor AgentKit corriendo en puerto {PORT}")
     logger.info(f"Proveedor de WhatsApp: {proveedor.__class__.__name__}")
+
+    # Diagnóstico de variables de entorno al arrancar
+    whapi_token = os.getenv("WHAPI_TOKEN", "")
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
+    logger.info(f"[ENV] WHAPI_TOKEN: {'OK (' + whapi_token[:6] + '...)' if whapi_token else 'FALTA — no configurado'}")
+    logger.info(f"[ENV] ANTHROPIC_API_KEY: {'OK (' + anthropic_key[:8] + '...)' if anthropic_key else 'FALTA — no configurado'}")
+    logger.info(f"[ENV] WHATSAPP_PROVIDER: {os.getenv('WHATSAPP_PROVIDER', 'no configurado')}")
+    logger.info(f"[ENV] ENVIRONMENT: {os.getenv('ENVIRONMENT', 'no configurado')}")
     yield
 
 
@@ -40,6 +48,23 @@ app = FastAPI(
 @app.get("/")
 async def health_check():
     return {"status": "ok", "service": "Asistente Dr. Virgilio"}
+
+
+@app.get("/health")
+async def health_detail():
+    """Diagnóstico: muestra qué variables de entorno están configuradas."""
+    whapi_token = os.getenv("WHAPI_TOKEN", "")
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
+    return {
+        "status": "ok",
+        "env": {
+            "WHAPI_TOKEN": f"OK ({whapi_token[:6]}...)" if whapi_token else "FALTA",
+            "ANTHROPIC_API_KEY": f"OK ({anthropic_key[:8]}...)" if anthropic_key else "FALTA",
+            "WHATSAPP_PROVIDER": os.getenv("WHATSAPP_PROVIDER", "FALTA"),
+            "ENVIRONMENT": os.getenv("ENVIRONMENT", "FALTA"),
+            "PORT": os.getenv("PORT", "FALTA"),
+        }
+    }
 
 
 @app.get("/webhook")
