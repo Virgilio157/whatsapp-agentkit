@@ -71,6 +71,8 @@ async def health_detail():
 
 @app.get("/webhook")
 async def webhook_verificacion(request: Request):
+    if proveedor is None:
+        return {"status": "ok"}
     resultado = await proveedor.validar_webhook(request)
     if resultado is not None:
         return PlainTextResponse(str(resultado))
@@ -83,6 +85,8 @@ async def webhook_handler(request: Request):
     Recibe mensajes de WhatsApp, genera respuesta con Claude y la envía.
     Clasifica cada mensaje por prioridad (NORMAL, PRIORITARIO, URGENTE).
     """
+    if proveedor is None:
+        return {"status": "ok"}
     try:
         mensajes = await proveedor.parsear_webhook(request)
 
