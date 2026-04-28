@@ -42,6 +42,9 @@ class ProveedorWhapi(ProveedorWhatsApp):
                 json={"to": telefono, "body": mensaje},
                 headers=headers,
             )
-            if r.status_code != 200:
+            exitoso = r.status_code in (200, 201)
+            if not exitoso:
                 logger.error(f"Error Whapi: {r.status_code} — {r.text}")
-            return r.status_code == 200
+            else:
+                logger.debug(f"Whapi OK {r.status_code}: {r.text[:100]}")
+            return exitoso
