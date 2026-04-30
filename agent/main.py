@@ -69,6 +69,17 @@ async def health_detail():
     }
 
 
+@app.get("/test-claude")
+async def test_claude():
+    """Verifica que la ANTHROPIC_API_KEY sea válida haciendo una llamada real."""
+    from agent.brain import generar_respuesta
+    try:
+        respuesta = await generar_respuesta("Di solo: OK", [])
+        return {"status": "ok", "respuesta": respuesta}
+    except Exception as e:
+        return {"status": "error", "detalle": str(e)}
+
+
 @app.get("/webhook")
 async def webhook_verificacion(request: Request):
     if proveedor is None:
