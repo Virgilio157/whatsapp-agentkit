@@ -32,19 +32,27 @@ class ProveedorWhapi(ProveedorWhatsApp):
         if not token:
             logger.warning("WHAPI_TOKEN no configurado — mensaje no enviado")
             return False
+        numero = telefono.replace("@s.whatsapp.net", "").replace("@c.us", "")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
         }
-        async with httpx.AsyncClient() as client:
-            r = await client.post(
-                self.url_envio,
-                json={"to": telefono.replace("@s.whatsapp.net", ""), "body": mensaje},
-                headers=headers,
-            )
-            exitoso = r.status_code in (200, 201)
-            if not exitoso:
-                logger.error(f"Error Whapi: {r.status_code} — {r.text}")
-            else:
-                logger.debug(f"Whapi OK {r.status_code}: {r.text[:100]}")
-            return exitoso
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                r = await client.post(
+                    self.url_envio,
+                    json={"to": numero, "body": mensaje},
+                    headers=headers,
+                )
+                exitoso = r.status_code in (200, 201)
+                if not exitoso:
+                    logger.error(f"Error Whapi {r.status_code}: {r.text}")
+                else:
+                    logger.info(f"Whapi OK {r.status_code} → {numero}")
+                return exitoso
+        except httpx.TimeoutException:
+            logger.error(f"Timeout al enviar mensaje a {numero} via Whapi")
+            return False
+        except Exception as e:
+            logger.error(f"Error inesperado enviando a {numero}: {type(e).__name__}: {e}")
+            return False

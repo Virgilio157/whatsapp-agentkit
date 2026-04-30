@@ -120,7 +120,9 @@ async def webhook_handler(request: Request):
             await guardar_mensaje(msg.telefono, "user", msg.texto)
             await guardar_mensaje(msg.telefono, "assistant", respuesta)
 
-            await proveedor.enviar_mensaje(msg.telefono, respuesta)
+            enviado = await proveedor.enviar_mensaje(msg.telefono, respuesta)
+            if not enviado:
+                logger.warning(f"No se pudo enviar respuesta a {msg.telefono}")
 
             logger.info(f"Respuesta a {msg.telefono} [{prioridad}]: {respuesta[:80]}...")
 
