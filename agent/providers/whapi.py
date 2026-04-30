@@ -39,7 +39,7 @@ class ProveedorWhapi(ProveedorWhatsApp):
         async with httpx.AsyncClient() as client:
             r = await client.post(
                 self.url_envio,
-                json={"to": telefono, "body": mensaje},
+                json={"to": telefono.replace("@s.whatsapp.net", ""), "body": mensaje},
                 headers=headers,
             )
             exitoso = r.status_code in (200, 201)
